@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookVault</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>📚 BookVault</h1>
+        <form class="search-form">
+            <input type="search" placeholder="Search books...">
+            <button>Search</button>
+        </form>
+
+        <button class="add-btn">
+            + Add Book
+        </button>
+    </header>
+
+    <main class="hero">
+    <h2>Your Personal Digital Library</h2>
+
+    <p>
+        Organize your favorite books, track your reading progress,
+        and build your own digital bookshelf.
+    </p>
+</main>
+
+    <section class="statistics">
+        <h2>Book Vault Statistics</h2>
+        <div class="stats-grid">
+            <div class="stat-box total">
+                <h3>Total</h3>
+                <p id="total-count">0</p>
+            </div>
+            <div class="stat-box read">
+                <h3>Read</h3>
+                <p id="read-count">0</p>
+            </div>
+            <div class="stat-box unread">
+                <h3>Unread</h3>
+                <p id="unread-count">0</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="books">
+
+    <h2>📚 Your Books</h2>
+
+    <div class="book-container">
+    <div class="book">
+        <h3>Book Name</h3>
+        <p>Author Name</p>
+        <p>No. of pages</p>
+        <button class="read-btn">✅ Read</button>
+        <button class="delete-btn">🗑️ Delete</button>
+    </div>
+
+    <div class="book">
+        <h3>Book Name</h3>
+        <p>Author Name</p>
+        <p>No. of pages</p>
+        <button class="read-btn">✅ Read</button>
+        <button class="delete-btn">🗑️ Delete</button>
+    </div>
+
+    <div class="book">
+        <h3>Book Name</h3>
+        <p>Author Name</p>
+        <p>No. of pages</p>
+        <button class="read-btn">✅ Read</button>
+        <button class="delete-btn">🗑️ Delete</button>
+    </div>
+    </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
