@@ -16,10 +16,39 @@
             <button>Search</button>
         </form>
 
-        <button class="add-btn">
-            + Add Book
-        </button>
+        <button class="open-form-btn" type="button">
+    + Add Book
+</button>
     </header>
+
+<section class="form-container">
+    <h2>Add New Book</h2>
+    <form id="book-form">
+        <input
+            type="text"
+            id="title"
+            placeholder="Book Title"
+            required
+        >
+        <input
+            type="text"
+            id="author"
+            placeholder="Author"
+            required
+        >
+        <input
+            type="number"
+            id="pages"
+            placeholder="Pages"
+            required
+        >
+        <label>
+            <input type="checkbox" id="read">
+            Already Read
+        </label>
+        <button class="submit-btn" type="submit">+ Add Book</button>
+    </form>
+</section>
 
     <main class="hero">
     <h2>Your Personal Digital Library</h2>
@@ -45,6 +74,10 @@
                 <h3>Unread</h3>
                 <p id="unread-count">0</p>
             </div>
+            <div class="stat-box progress">
+    <h3>Progress</h3>
+    <p id="progress-count">0%</p>
+</div>
         </div>
     </section>
 

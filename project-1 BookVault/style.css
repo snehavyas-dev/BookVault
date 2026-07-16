@@ -1,8 +1,9 @@
 /* Here is css style  */
-body {
- font-family: Arial, Helvetica, sans-serif;
-    background-color: #f5f7fb;
-    color: #222;
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fb;
+    color:#222;
 }
 
 * {
@@ -11,27 +12,45 @@ body {
     box-sizing: border-box;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 60px;
-    background-color: white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 60px;
+    background:#fff;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
 header h1 {
     color: #4f46e5;
 }
 
-input[type="search"] {
-    width: 280px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+.search-form{
+    display:flex;
+    gap:10px;
 }
 
-button {
+.search-form input{
+    width:280px;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+}
+
+.search-form button{
+    padding:12px 18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#4f46e5;
+    color:white;
+}
+
+.open-form-btn {
     padding: 10px 18px;
     border: none;
     border-radius: 10px;
@@ -41,9 +60,69 @@ button {
     font-weight: bold;
 }
 
-button:hover{
+.open-form-btn:hover{
     transform:translateY(-2px);
     transition:.3s;
+}
+
+.form-container {
+    display: grid;
+  justify-content: center;
+  margin: 10px;
+}
+
+.form-container h2 {
+  text-align: center;
+  margin: 10px;
+}
+
+#book-form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+#book-form input{
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+
+.submit-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #4f46e5;
+    color: white;
+    font-weight: bold;
+}
+
+.submit-btn:hover{
+    transform:translateY(-2px);
+    transition:.3s;
+}
+
+.hero{
+    text-align:center;
+    padding:90px 20px;
+}
+
+.hero h2{
+    font-size:48px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:20px;
+    color:#666;
+    max-width:700px;
+    margin:auto;
+    line-height:1.6;
+}
+
+.statistics h2{
+    text-align:center;
 }
 
 .stats-grid{
@@ -55,36 +134,27 @@ button:hover{
 
 .stat-box{
     background:white;
-    padding:25px;
-    width:180px;
+    padding:30px;
+    width:200px;
+    border-radius:18px;
     text-align:center;
-    border-radius:15px;
-    box-shadow:0 5px 12px rgba(0,0,0,.08);
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.3s;
 }
 
-.statistics h2{
-    text-align:center;
+.stat-box:hover{
+    transform:translateY(-8px);
+}
+
+.books{
+    display:grid;
+    margin-bottom: 25px;
 }
 
 .books h2 {
     text-align: center;
     margin: 10px;
-}
-
-.book{
-    background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 5px 12px rgba(0,0,0,.08);
-}
-
-.book h3{
-    margin-bottom:10px;
-}
-
-.book:hover{
-    transform:translateY(-5px);
-    transition:.3s;
+    margin-bottom: 25px;
 }
 
 .book-container{
@@ -97,36 +167,76 @@ button:hover{
     margin:auto;
 }
 
+.book{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.book:hover{
+    transform:translateY(-8px);
+}
+
+.book p{
+    margin:10px 0;
+    color:#555;
+}
+
+.book h3{
+    margin-bottom:15px;
+    color:#4f46e5;
+}
+
 .book button{
     margin-top:15px;
-    margin-right:10px;
+    padding:10px 16px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.toggle-btn{
+    background:#22c55e;
+    color:white;
+}
+
+.delete-btn{
+    background:#ef4444;
+    color:white;
+}
+
+.book button:hover{
+    transform:scale(1.05);
 }
 
 main{
     padding:40px;
 }
 
-.hero{
-    text-align:center;
-    padding:80px 20px;
+@media(max-width:900px){
+
+header{
+    flex-direction:column;
+    gap:20px;
+}
+
+.stats-grid{
+    flex-wrap:wrap;
+}
+
+.book-container{
+    grid-template-columns:1fr;
+}
+
+.form-container{
+    width:90%;
 }
 
 .hero h2{
-    font-size:42px;
-    margin-bottom:15px;
+    font-size:34px;
 }
 
-.hero p{
-    font-size:18px;
-    color:#666;
-}
-
-.container{
-    width:90%;
-    max-width:1200px;
-    margin:auto;
-}
-
-.books{
-    display:grid;
 }
