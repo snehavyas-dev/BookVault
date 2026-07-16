@@ -47,6 +47,17 @@ function displayBooks() {
             displayBooks();
         });
 
+        Book.prototype.toggleRead = function () {
+         this.read = !this.read;
+        };
+
+        const toggleBtn = bookCard.querySelector(".toggle-btn");
+
+        toggleBtn.addEventListener("click", () => {
+        book.toggleRead();
+        displayBooks();
+        });
+
         bookContainer.appendChild(bookCard);
     });
 }
