@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BookVault</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+    APP SHELL
+    ====================================================== -->
+
+    <div class="app-shell">
+
+        <!-- =================================================
+        SIDEBAR
+        ================================================== -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-logo">
+                    <img src="bookvault logo image.png" alt="BookVault logo">
+
+                    <span>Your reading journey</span>
+
+                </div>
+
+                <nav class="sidebar-nav">
+                    <button type="button" class="sidebar-nav-item active" data-target="home">
+                        <span>⌂</span><span>Home</span>
+                    </button>
+
+                    <button type="button" class="sidebar-nav-item" data-target="books">
+                        <span>▣</span><span>My Books</span>
+                    </button>
+
+                    <button type="button" class="sidebar-nav-item sidebar-add-book">
+                        <span>⊕</span><span>Add Book</span>
+                    </button>
+
+                    <button type="button" class="sidebar-nav-item" data-target="statistics">
+                        <span>▥</span><span>Statistics</span>
+                    </button>
+
+                    <button type="button" class="sidebar-nav-item" data-target="reading">
+                        <span>◉</span><span>Reading Goals</span>
+                    </button>
+
+                    <button type="button" class="sidebar-nav-item" data-target="categories">
+                        <span>□</span><span>Categories</span>
+                    </button>
+
+                    <button type="button" class="sidebar-nav-item" data-target="quotes">
+                        <span>♧</span><span>Quotes</span>
+                    </button>
+
+                    <button type="button" class="sidebar-nav-item" data-target="settings">
+                        <span>⚙</span><span>Settings</span>
+                    </button>
+                </nav>
+
+            </div>
+
+
+            <div class="sidebar-quote">
+
+                <span class="quote-mark">“</span>
+
+                <p>
+                    A room without books is like a body
+                    without a soul.
+                </p>
+
+                <span class="quote-author">
+                    – Marcus Tullius Cicero
+                </span>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =================================================
+        MAIN DASHBOARD
+        ================================================== -->
+
+        <main class="dashboard">
+
+            <!-- =============================================
+            DASHBOARD HEADER
+            ============================================== -->
+
+            <header class="dashboard-header">
+
+                <div class="dashboard-greeting">
+
+                    <h1>
+                        Good morning, Reader! 👋
+                    </h1>
+
+                    <p>
+                        Ready to continue your next adventure?
+                    </p>
+
+                </div>
+
+
+                <div class="dashboard-header-actions">
+
+                    <div class="nav-search">
+
+                        <input type="text" id="search-input" placeholder="Search books...">
+
+                        <span class="search-icon">
+                            ⌕
+                        </span>
+
+                        <div id="search-suggestions" class="search-suggestions"></div>
+
+                    </div>
+
+
+                    <button type="button" class="dashboard-avatar" aria-label="Open profile">
+                        👤
+                    </button>
+
+
+                    <button type="button" class="dashboard-add-book open-form-btn">
+                        + Add Book
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- =============================================
+            STATISTICS
+            ============================================== -->
+
+            <section class="statistics" id="statistics">
+
+                <div class="stats-grid">
+
+                    <div class="stat-box total">
+
+                        <div class="stat-icon">
+                            📖
+                        </div>
+
+                        <div class="stat-content">
+
+                            <h3>
+                                Total Books
+                            </h3>
+
+                            <p id="total-count">
+                                0
+                            </p>
+
+                            <span>
+                                All time
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-box completed">
+
+                        <div class="stat-icon">
+                            ✓
+                        </div>
+
+                        <div class="stat-content">
+
+                            <h3>
+                                Completed
+                            </h3>
+
+                            <p id="completed-count">
+                                0
+                            </p>
+
+                            <span>
+                                0% of total
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-box reading">
+
+                        <div class="stat-icon">
+                            🔖
+                        </div>
+
+                        <div class="stat-content">
+
+                            <h3>
+                                In Progress
+                            </h3>
+
+                            <p id="reading-count">
+                                0
+                            </p>
+
+                            <span>
+                                0% of total
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-box want-to-read">
+
+                        <div class="stat-icon">
+                            ◷
+                        </div>
+
+                        <div class="stat-content">
+
+                            <h3>
+                                To Read
+                            </h3>
+
+                            <p id="want-to-read-count">
+                                0
+                            </p>
+
+                            <span>
+                                0% of total
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="reading-progress">
+
+                    <div class="progress-header">
+
+                        <span>
+                            Reading Progress
+                        </span>
+
+                        <strong id="progress-count">
+                            0%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="progress-track">
+
+                        <div class="progress-bar" id="progress-bar"></div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+            CURRENTLY READING
+            ============================================== -->
+
+            <section class="currently-reading">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            YOUR SHELF
+                        </span>
+
+                        <h2>
+                            📖 Currently Reading
+                        </h2>
+
+                    </div>
+
+                    <span id="reading-count-label">
+                        0 books
+                    </span>
+
+                </div>
+
+
+                <div class="currently-reading-container" id="currently-reading-container"></div>
+
+            </section>
+
+            <!-- =========================================================
+     READING GOALS
+========================================================= -->
+
+            <section class="reading-goals-section" id="reading-goals">
+
+                <div class="section-label">YOUR PROGRESS</div>
+
+                <div class="section-header">
+                    <div>
+                        <h2>🎯 Reading Goals</h2>
+                        <p>Keep moving toward your reading goals.</p>
+                    </div>
+                </div>
+
+                <div class="goal-card">
+
+                    <div class="goal-top">
+                        <div>
+                            <h3>Yearly Reading Goal</h3>
+                            <p>
+                                Read <strong id="goal-target">12</strong> books this year.
+                            </p>
+                        </div>
+
+                        <span id="goal-percentage">0%</span>
+                    </div>
+
+                    <div class="goal-progress-track">
+                        <div class="goal-progress-bar" id="goal-progress-bar"></div>
+                    </div>
+
+                    <div class="goal-bottom">
+                        <span>
+                            <strong id="goal-completed">0</strong> books completed
+                        </span>
+
+                        <button type="button" id="change-goal-btn">
+                            ✏ Change Goal
+                        </button>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================================================
+     CATEGORIES
+========================================================= -->
+
+            <section class="categories-section" id="categories">
+
+                <div class="section-label">YOUR COLLECTION</div>
+
+                <div class="section-header">
+                    <div>
+                        <h2>📚 Categories</h2>
+                        <p>Explore your books by category.</p>
+                    </div>
+                </div>
+
+                <div class="categories-grid" id="categories-grid"></div>
+
+            </section>
+
+
+            <!-- =========================================================
+     SETTINGS
+========================================================= -->
+
+            <section class="settings-section" id="settings">
+
+                <div class="section-label">PREFERENCES</div>
+
+                <div class="section-header">
+                    <div>
+                        <h2>⚙ Settings</h2>
+                        <p>Customize your BookVault experience.</p>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+
+                    <div class="setting-item">
+                        <div>
+                            <h3>Dark Mode</h3>
+                            <p>Switch between light and dark appearance.</p>
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" id="dark-mode-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <div>
+                            <h3>Confirm Before Delete</h3>
+                            <p>Ask for confirmation before deleting a book.</p>
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" id="delete-confirm-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <div>
+                            <h3>Reset Library</h3>
+                            <p>Remove all books from your BookVault library.</p>
+                        </div>
+
+                        <button type="button" class="danger-btn" id="reset-library-btn">
+                            Reset Library
+                        </button>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =========================================================
+     QUOTES
+========================================================= -->
+
+            <section class="quotes-section" id="quotes">
+
+                <div class="quotes-section-label">
+                    YOUR THOUGHTS
+                </div>
+
+                <div class="quotes-section-header">
+
+                    <div>
+                        <h2>♡ Favorite Quotes</h2>
+                        <p>Words worth keeping close.</p>
+                    </div>
+
+                    <button class="quote-next-btn" type="button">
+                        ↻ New Quote
+                    </button>
+
+                </div>
+
+                <article class="quote-card">
+
+                    <div class="quote-mark">“</div>
+
+                    <blockquote>
+                        A room without books is like a body without a soul.
+                    </blockquote>
+
+                    <div class="quote-author">
+                        — Marcus Tullius Cicero
+                    </div>
+
+                    <div class="quote-actions">
+
+                        <button class="quote-favorite-btn" type="button">
+                            ♡ Favorite
+                        </button>
+
+                        <button class="quote-share-btn" type="button">
+                            ↗ Share
+                        </button>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- =============================================
+            YOUR BOOKS
+            ============================================== -->
+
+            <section class="books">
+
+                <div class="books-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            LIBRARY
+                        </span>
+
+                        <h2>
+                            Your Books
+                        </h2>
+
+                    </div>
+
+
+                    <div class="books-header-actions">
+
+                    </div>
+
+                </div>
+
+
+                <!-- Filters -->
+
+                <div class="filter-buttons">
+
+                    <button id="all-btn">
+                        All
+                    </button>
+
+                    <button id="completed-btn">
+                        Completed
+                    </button>
+
+                    <button id="reading-btn">
+                        In Progress
+                    </button>
+
+                    <button id="want-to-read-btn">
+                        To Read
+                    </button>
+
+                    <button id="favorites-btn">
+                        ♥ Favorites
+                    </button>
+
+                    <button id="sort-title-btn">
+                        A → Z
+                    </button>
+
+                    <button id="sort-pages-btn">
+                        Pages
+                    </button>
+
+                </div>
+
+
+                <!-- Book cards are generated by JavaScript -->
+
+                <div class="book-container"></div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================================
+MOBILE BOTTOM NAVIGATION
+====================================================== -->
+
+<nav class="mobile-bottom-nav">
+
+    <button class="mobile-nav-item active" type="button" data-section="home">
+        <span>⌂</span>
+        <small>Home</small>
+    </button>
+
+    <button class="mobile-nav-item" type="button" data-section="books">
+        <span>▣</span>
+        <small>My Books</small>
+    </button>
+
+    <button class="mobile-add-btn" type="button">
+        +
+    </button>
+
+    <button class="mobile-nav-item" type="button" data-section="stats">
+        <span>▥</span>
+        <small>Stats</small>
+    </button>
+
+    <button class="mobile-nav-item" type="button" data-section="quotes">
+        <span>♡</span>
+        <small>Quotes</small>
+    </button>
+
+</nav>
+
+
+    <!-- =====================================================
+    ADD BOOK MODAL
+    ====================================================== -->
+
+    <div class="modal" id="book-modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h2>
+                    Add New Book
+                </h2>
+
+                <button class="close-modal" type="button">
+                    &times;
+                </button>
+
+            </div>
+
+
+            <form id="book-form">
+
+                <input type="text" id="title" placeholder="Book Title" required>
+
+                <input type="text" id="author" placeholder="Author" required>
+
+                <input type="number" id="pages" placeholder="Pages" required>
+
+                <label class="checkbox">
+
+                    <input type="checkbox" id="read">
+
+                    Already Read
+
+                </label>
+
+                <button class="submit-btn" type="submit">
+                    Add Book
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+    EDIT BOOK MODAL
+    ====================================================== -->
+
+    <div class="modal" id="edit-book-modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Edit Book
+                    </h2>
+
+                    <p>
+                        Update your book information
+                    </p>
+
+                </div>
+
+                <button class="close-edit-modal" type="button">
+                    &times;
+                </button>
+
+            </div>
+
+
+            <form id="edit-book-form">
+
+                <input type="text" id="edit-title" placeholder="Book Title" required>
+
+                <input type="text" id="edit-author" placeholder="Author" required>
+
+                <input type="number" id="edit-pages" placeholder="Pages" min="1" required>
+
+                <label for="book-status">
+                    Reading Status
+                </label>
+
+                <select id="edit-book-status" required>
+
+                    <option value="want-to-read">
+                        📚 Want to Read
+                    </option>
+
+                    <option value="reading">
+                        📖 Reading
+                    </option>
+
+                    <option value="completed">
+                        ✓ Completed
+                    </option>
+
+                </select>
+
+
+                <button class="submit-btn" type="submit">
+                    Save Changes
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+    UPDATE PROGRESS MODAL
+    ====================================================== -->
+
+    <div class="modal" id="progress-modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Update Reading Progress
+                    </h2>
+
+                    <p id="progress-book-title">
+                        Update your current page
+                    </p>
+
+                </div>
+
+                <button class="close-progress-modal" type="button">
+                    &times;
+                </button>
+
+            </div>
+
+
+            <form id="progress-form">
+
+                <label for="current-page">
+                    Current Page
+                </label>
+
+                <input type="number" id="current-page" min="0" required>
+
+                <p class="progress-page-info">
+                    Page 0 of 0
+                </p>
+
+                <button class="submit-btn" type="submit">
+                    Save Progress
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+    BOOK COMPLETED MODAL
+    ====================================================== -->
+
+    <div class="modal" id="completed-modal">
+
+        <div class="modal-content completion-modal-content">
+
+            <div class="completion-icon">
+                🎉
+            </div>
+
+            <div class="modal-header completion-header">
+
+                <div>
+
+                    <h2>
+                        Book Completed!
+                    </h2>
+
+                    <p id="completed-book-title">
+                        You've reached the end of the book.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <p class="completion-message">
+                Congratulations! Would you like to mark this
+                book as completed?
+            </p>
+
+
+            <div class="completion-actions">
+
+                <button type="button" class="completion-cancel-btn" id="completion-cancel-btn">
+                    Not Yet
+                </button>
+
+                <button type="button" class="completion-confirm-btn" id="completion-confirm-btn">
+                    ✓ Mark Completed
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+    BOOK DETAILS MODAL
+    ====================================================== -->
+
+    <div class="modal" id="book-details-modal">
+
+        <div class="modal-content book-details-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        BOOK DETAILS
+                    </span>
+
+                    <h2 id="details-title">
+                        Book Title
+                    </h2>
+
+                    <p id="details-author">
+                        Author
+                    </p>
+
+                </div>
+
+                <button class="close-details-modal" type="button">
+                    &times;
+                </button>
+
+            </div>
+
+
+            <div class="book-details-body">
+
+                <div class="details-info">
+
+                    <div class="details-stat">
+
+                        <span>
+                            Pages
+                        </span>
+
+                        <strong id="details-pages">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="details-stat">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong id="details-status">
+                            📚 Want to Read
+                        </strong>
+
+                    </div>
+
+
+                    <div class="details-stat">
+
+                        <span>
+                            Progress
+                        </span>
+
+                        <strong id="details-progress">
+                            0%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="details-progress-section">
+
+                    <div class="details-progress-header">
+
+                        <span>
+                            Reading Progress
+                        </span>
+
+                        <strong id="details-progress-page">
+                            0 / 0 pages
+                        </strong>
+
+                    </div>
+
+
+                    <div class="details-progress-track">
+
+                        <div class="details-progress-bar" id="details-progress-bar"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="details-notes-section">
+
+                    <div class="details-notes-header">
+
+                        <div>
+
+                            <span class="section-label">
+                                YOUR NOTES
+                            </span>
+
+                            <h3>
+                                📝 Personal Notes
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="notes-editor">
+
+                        <textarea id="details-notes" class="details-notes"
+                            placeholder="Write your thoughts about this book..."></textarea>
+
+                        <button type="button" id="expand-notes-btn" class="expand-notes-btn">
+                            ↗ Expand
+                        </button>
+
+                    </div>
+
+
+                    <button type="button" class="details-save-notes-btn" id="details-save-notes-btn">
+                        💾 Save Notes
+                    </button>
+
+                </div>
+
+
+                <div class="details-actions">
+
+                    <button type="button" class="details-favorite-btn" id="details-favorite-btn">
+                        ♡ Add to Favorites
+                    </button>
+
+                    <button type="button" class="details-progress-btn" id="details-progress-btn">
+                        📖 Update Progress
+                    </button>
+
+                    <button type="button" class="details-edit-btn" id="details-edit-btn">
+                        ✏️ Edit Book
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+    DELETE CONFIRMATION MODAL
+    ====================================================== -->
+
+    <div class="modal" id="delete-confirm-modal">
+
+        <div class="delete-confirm-content">
+
+            <div class="delete-confirm-icon">
+                !
+            </div>
+
+            <h2>
+                Delete Book?
+            </h2>
+
+            <p id="delete-confirm-message">
+                Are you sure you want to delete this book?
+            </p>
+
+
+            <div class="delete-confirm-actions">
+
+                <button type="button" class="delete-cancel-btn" id="delete-cancel-btn">
+                    Cancel
+                </button>
+
+                <button type="button" class="delete-confirm-btn" id="delete-confirm-btn">
+                    Delete
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =================================================
+     PROFILE POPUP
+================================================= -->
+
+    <div class="profile-popup" id="profile-popup">
+
+        <div class="profile-popup-content">
+
+            <button type="button" id="profile-close" class="profile-close" aria-label="Close profile">
+                &times;
+            </button>
+
+            <div class="profile-icon">
+                👤
+            </div>
+
+            <h2>Reader Profile</h2>
+
+            <p>Your BookVault reading journey</p>
+
+            <div class="profile-stats">
+
+                <div>
+                    <strong id="profile-book-count">0</strong>
+                    <span>Total Books</span>
+                </div>
+
+                <div>
+                    <strong id="profile-completed-count">0</strong>
+                    <span>Completed</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
