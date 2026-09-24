@@ -160,7 +160,8 @@ a {
 }
 
 #book-form input[type="text"],
-#book-form input[type="number"] {
+#book-form input[type="number"],
+#book-form select {
     width: 100%;
     padding: 14px 16px;
     margin-bottom: 14px;
@@ -176,7 +177,19 @@ a {
         box-shadow 0.25s ease;
 }
 
-#book-form input:focus {
+#book-form label {
+    margin-bottom: -6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #22333B;
+}
+
+#book-form select {
+    cursor: pointer;
+}
+
+#book-form input:focus,
+#book-form select:focus {
     outline: none;
     background: #FFFFFF;
     border-color: #C6AC8F;
@@ -2423,7 +2436,8 @@ a {
     }
 
     #book-form input[type="text"],
-    #book-form input[type="number"] {
+    #book-form input[type="number"],
+    #book-form select {
         padding: 13px 15px;
         margin-bottom: 10px;
     }
@@ -2456,7 +2470,8 @@ a {
     }
 
     #book-form input[type="text"],
-    #book-form input[type="number"] {
+    #book-form input[type="number"],
+    #book-form select {
         width: 100%;
         padding: 12px 14px;
         margin-bottom: 8px;
@@ -2488,7 +2503,8 @@ a {
     }
 
     #book-form input[type="text"],
-    #book-form input[type="number"] {
+    #book-form input[type="number"],
+    #book-form select {
         padding: 11px 13px;
         font-size: 13px;
     }
@@ -3988,6 +4004,7 @@ textarea {
 
 #book-form input[type="text"],
 #book-form input[type="number"],
+#book-form select,
 #current-page,
 .details-notes {
     width: 100%;

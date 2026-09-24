@@ -10,7 +10,7 @@ const myLibrary = [];
 
 function Book(title, author, pages, status = "want-to-read") {
 
-    this.id = crypto.randomUUID();
+    this.id = crypto?.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substring(2);
 
     this.title = title;
 
@@ -22,7 +22,7 @@ function Book(title, author, pages, status = "want-to-read") {
 
     this.favorite = false;
 
-    this.currentPage = 0;
+    this.currentPage = status === "completed" ? pages : 0;
 
     this.category = "Uncategorized";
 }
@@ -213,11 +213,17 @@ completionCancelBtn.addEventListener("click", () => {
 
 });
 
-completionConfirmBtn.addEventListener("click", () => {
+completionConfirmBtn.addEventListener("click", async () => {
 
     if (!completionBook) return;
 
     completionBook.status = "completed";
+    completionBook.currentPage = completionBook.pages;
+
+    await apiUpdateBook(completionBook.id, {
+        status: "completed",
+        currentPage: completionBook.pages
+    });
 
     saveLibrary();
 
@@ -226,6 +232,8 @@ completionConfirmBtn.addEventListener("click", () => {
     displayBooks(myLibrary);
 
     displayCurrentlyReading();
+    updateReadingGoal();
+    displayCategories();
 
     completedModal.classList.remove("active");
 
@@ -259,22 +267,38 @@ const closeEditModalBtn =
 
 let editingBook = null;
 
-editForm.addEventListener("submit", (event) => {
+editForm.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
     if (!editingBook) return;
 
-    editingBook.title = editTitleInput.value;
-    editingBook.author = editAuthorInput.value;
-    editingBook.pages = Number(editPagesInput.value);
-    editingBook.status = editStatusInput.value;
+    const updatedData = {
+        title: editTitleInput.value.trim(),
+        author: editAuthorInput.value.trim(),
+        pages: Number(editPagesInput.value),
+        status: editStatusInput.value
+    };
+
+    if (updatedData.status === "completed" && (editingBook.currentPage || 0) < updatedData.pages) {
+        updatedData.currentPage = updatedData.pages;
+    }
+
+    await apiUpdateBook(editingBook.id, updatedData);
+
+    Object.assign(editingBook, updatedData);
 
     saveLibrary();
 
     displayBooks(myLibrary);
 
     updateStatistics();
+
+    displayCurrentlyReading();
+
+    updateReadingGoal();
+
+    displayCategories();
 
     editModal.classList.remove("active");
 
@@ -388,57 +412,146 @@ sidebarNavItems.forEach((item) => {
     });
 });
 
+// --------------------------
+// REST API Helpers (Node.js + Express + MongoDB)
+// --------------------------
+const API_URL = "/api/books";
+
+async function apiFetchBooks() {
+    try {
+        const response = await fetch(API_URL);
+        const result = await response.json();
+        if (result.success && Array.isArray(result.data)) {
+            return result.data.map(book => {
+                book.id = book.id || book._id;
+                return book;
+            });
+        }
+    } catch (err) {
+        console.warn("REST API unavailable, falling back to local storage:", err.message);
+    }
+    return null;
+}
+
+async function apiAddBook(bookData) {
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(bookData)
+        });
+        const result = await response.json();
+        if (result.success && result.data) {
+            const book = result.data;
+            book.id = book.id || book._id;
+            return book;
+        }
+    } catch (err) {
+        console.warn("Failed to POST book to API:", err.message);
+    }
+    return null;
+}
+
+async function apiUpdateBook(id, updateData) {
+    if (!id) return null;
+    try {
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updateData)
+        });
+        const result = await response.json();
+        if (result.success && result.data) {
+            const book = result.data;
+            book.id = book.id || book._id;
+            return book;
+        }
+    } catch (err) {
+        console.warn(`Failed to PUT book ${id} to API:`, err.message);
+    }
+    return null;
+}
+
+async function apiDeleteBook(id) {
+    if (!id) return false;
+    try {
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: "DELETE"
+        });
+        const result = await response.json();
+        return Boolean(result.success);
+    } catch (err) {
+        console.warn(`Failed to DELETE book ${id} from API:`, err.message);
+    }
+    return false;
+}
+
 function saveLibrary() {
-    console.log("Saving library...", myLibrary);
     localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
 }
 
-function loadLibrary() {
+async function loadLibrary() {
 
+    // 1. Attempt to load from MongoDB via Express REST API
+    const apiBooks = await apiFetchBooks();
+
+    if (apiBooks) {
+        myLibrary.length = 0;
+        apiBooks.forEach(book => {
+            myLibrary.push(book);
+        });
+
+        displayBooks(myLibrary);
+        updateStatistics();
+        displayCurrentlyReading();
+        updateReadingGoal();
+        displayCategories();
+        return;
+    }
+
+    // 2. Fallback to localStorage if API is not running
     const storedBooks = localStorage.getItem("myLibrary");
 
     if (!storedBooks) return;
 
-    const parsedBooks = JSON.parse(storedBooks);
+    try {
+        const parsedBooks = JSON.parse(storedBooks);
+        myLibrary.length = 0;
 
-    parsedBooks.forEach(book => {
+        parsedBooks.forEach(book => {
+            let status;
+            if (book.status) {
+                status = book.status;
+            } else if (book.read) {
+                status = "completed";
+            } else {
+                status = "want-to-read";
+            }
 
-        let status;
+            const newBook = new Book(
+                book.title,
+                book.author,
+                book.pages,
+                status
+            );
 
-        if (book.status) {
+            newBook.id = book.id || book._id;
+            newBook.favorite = book.favorite ?? false;
+            newBook.notes = book.notes || "";
+            newBook.currentPage = book.currentPage ?? 0;
+            newBook.category = book.category || "Uncategorized";
 
-            status = book.status;
+            myLibrary.push(newBook);
+        });
 
-        } else if (book.read) {
-
-            status = "completed";
-
-        } else {
-
-            status = "want-to-read";
-
-        }
-
-        const newBook = new Book(
-            book.title,
-            book.author,
-            book.pages,
-            status
-        );
-
-        newBook.id = book.id;
-
-        newBook.favorite = book.favorite ?? false;
-
-        newBook.notes = book.notes || "";
-
-        newBook.currentPage = book.currentPage ?? 0;
-
-        newBook.category = book.category || "Uncategorized";
-
-        myLibrary.push(newBook);
-
-    });
+        displayBooks(myLibrary);
+        updateStatistics();
+        displayCurrentlyReading();
+        updateReadingGoal();
+        displayCategories();
+    } catch (e) {
+        console.error("Failed to parse stored books:", e);
+    }
 
 }
 
@@ -560,13 +673,21 @@ function displayBooks(books) {
 
         const toggleBtn = bookCard.querySelector(".toggle-btn");
 
-        toggleBtn.addEventListener("click", () => {
+        toggleBtn.addEventListener("click", async () => {
 
             book.toggleStatus();
+
+            await apiUpdateBook(book.id, {
+                status: book.status,
+                currentPage: book.status === "completed" ? book.pages : (book.currentPage || 0)
+            });
+
             saveLibrary();
             displayBooks(myLibrary);
             updateStatistics();
             displayCurrentlyReading();
+            updateReadingGoal();
+            displayCategories();
 
         });
 
@@ -587,9 +708,13 @@ function displayBooks(books) {
 
         const favoriteBtn = bookCard.querySelector(".favorite-btn");
 
-        favoriteBtn.addEventListener("click", () => {
+        favoriteBtn.addEventListener("click", async () => {
 
             book.favorite = !book.favorite;
+
+            await apiUpdateBook(book.id, {
+                favorite: book.favorite
+            });
 
             saveLibrary();
 
@@ -714,11 +839,13 @@ document.addEventListener("keydown", (event) => {
 
 });
 
-detailsSaveNotesBtn.addEventListener("click", () => {
+detailsSaveNotesBtn.addEventListener("click", async () => {
 
     if (!detailsBook) return;
 
     detailsBook.notes = detailsNotes.value.trim();
+
+    await apiUpdateBook(detailsBook.id, { notes: detailsBook.notes });
 
     saveLibrary();
 
@@ -732,11 +859,13 @@ detailsSaveNotesBtn.addEventListener("click", () => {
 
 });
 
-detailsFavoriteBtn.addEventListener("click", () => {
+detailsFavoriteBtn.addEventListener("click", async () => {
 
     if (!detailsBook) return;
 
     detailsBook.favorite = !detailsBook.favorite;
+
+    await apiUpdateBook(detailsBook.id, { favorite: detailsBook.favorite });
 
     saveLibrary();
 
@@ -812,7 +941,7 @@ detailsEditBtn.addEventListener("click", () => {
 
 });
 
-deleteConfirmBtn.addEventListener("click", () => {
+deleteConfirmBtn.addEventListener("click", async () => {
 
     if (!bookToDelete) return;
 
@@ -822,6 +951,8 @@ deleteConfirmBtn.addEventListener("click", () => {
 
     if (index === -1) return;
 
+    await apiDeleteBook(bookToDelete.id);
+
     myLibrary.splice(index, 1);
 
     saveLibrary();
@@ -829,6 +960,8 @@ deleteConfirmBtn.addEventListener("click", () => {
     displayBooks(myLibrary);
     updateStatistics();
     displayCurrentlyReading();
+    updateReadingGoal();
+    displayCategories();
 
     deleteConfirmModal.classList.remove("active");
 
@@ -986,7 +1119,7 @@ function displayCurrentlyReading() {
 
         });
 
-        progressForm.addEventListener("submit", (event) => {
+        progressForm.addEventListener("submit", async (event) => {
 
             event.preventDefault();
 
@@ -1008,9 +1141,9 @@ function displayCurrentlyReading() {
 
             progressBook.currentPage = page;
 
-            if (page === progressBook.pages) {
+            await apiUpdateBook(progressBook.id, { currentPage: page });
 
-                progressBook.currentPage = page;
+            if (page === progressBook.pages) {
 
                 saveLibrary();
 
@@ -1134,20 +1267,52 @@ filterBtn?.addEventListener("click", () => {
 // Form Submit
 // --------------------------
 
-bookForm.addEventListener("submit", function (event) {
+bookForm.addEventListener("submit", async function (event) {
 
     event.preventDefault();
 
-    const title = titleInput.value;
-    const author = authorInput.value;
+    const title = titleInput.value.trim();
+    const author = authorInput.value.trim();
     const pages = Number(pagesInput.value);
-    const status = statusInput.value;
+    const status = statusInput?.value || "want-to-read";
 
-    addBookToLibrary(title, author, pages, status);
+    if (!title || !author || !pages || pages <= 0) {
+        return;
+    }
+
+    const payload = {
+        title,
+        author,
+        pages,
+        status,
+        currentPage: status === "completed" ? pages : 0,
+        favorite: false,
+        category: "Uncategorized",
+        notes: ""
+    };
+
+    // 1. Persist to MongoDB via REST API
+    const apiBook = await apiAddBook(payload);
+
+    if (apiBook) {
+        myLibrary.unshift(apiBook);
+    } else {
+        addBookToLibrary(title, author, pages, status);
+    }
 
     saveLibrary();
+
+    // Clear search so newly added book is immediately visible in the list
+    if (searchInput) {
+        searchInput.value = "";
+    }
+    searchSuggestions?.classList.remove("active");
+
     displayBooks(myLibrary);
     updateStatistics();
+    displayCurrentlyReading();
+    updateReadingGoal();
+    displayCategories();
 
     // Clear Form
     bookForm.reset();

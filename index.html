@@ -623,15 +623,27 @@ MOBILE BOTTOM NAVIGATION
 
                 <input type="text" id="author" placeholder="Author" required>
 
-                <input type="number" id="pages" placeholder="Pages" required>
+                <input type="number" id="pages" placeholder="Pages" min="1" required>
 
-                <label class="checkbox">
-
-                    <input type="checkbox" id="read">
-
-                    Already Read
-
+                <label for="book-status">
+                    Reading Status
                 </label>
+
+                <select id="book-status" required>
+
+                    <option value="want-to-read">
+                        📚 Want to Read
+                    </option>
+
+                    <option value="reading">
+                        📖 Reading
+                    </option>
+
+                    <option value="completed">
+                        ✓ Completed
+                    </option>
+
+                </select>
 
                 <button class="submit-btn" type="submit">
                     Add Book
@@ -681,7 +693,7 @@ MOBILE BOTTOM NAVIGATION
 
                 <input type="number" id="edit-pages" placeholder="Pages" min="1" required>
 
-                <label for="book-status">
+                <label for="edit-book-status">
                     Reading Status
                 </label>
 
