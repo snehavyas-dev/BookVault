@@ -113,7 +113,7 @@ For students and examiners evaluating this practical:
 
 ---
 
-## 👩‍💻 About the Developer
+## ‍💻 About the Developer
 
 Hi! I'm **Sneha Vyas**, a B.Tech Computer Science & Engineering student and aspiring Full Stack Developer.
 
