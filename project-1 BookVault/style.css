@@ -7443,8 +7443,54 @@ MOBILE
 ========================================================= */
 
 body.dark-mode {
+    --bv-bg: #10161c;
+    --bv-surface: #1b252d;
+    --bv-border: #2d3a44;
+    --bv-heading: #edf3f7;
+    --bv-text: #edf3f7;
+    --bv-muted: #aab7c0;
     background: #10161c !important;
     color: #edf3f7 !important;
+}
+
+body.dark-mode .book-cover h3,
+body.dark-mode .book-body .author,
+body.dark-mode .book-body .pages,
+body.dark-mode .book-body p,
+body.dark-mode .reading-card h3,
+body.dark-mode .reading-card p,
+body.dark-mode .reading-card span,
+body.dark-mode .reading-author,
+body.dark-mode .reading-pages,
+body.dark-mode .progress-header strong,
+body.dark-mode .book-details-content .modal-header h2,
+body.dark-mode .book-details-content .modal-header p,
+body.dark-mode .modal-content h2,
+body.dark-mode .modal-header h2,
+body.dark-mode .modal-header p,
+body.dark-mode #progress-form label,
+body.dark-mode .progress-page-info,
+body.dark-mode .completion-header h2,
+body.dark-mode .completion-header p,
+body.dark-mode .completion-message,
+body.dark-mode .details-progress-header strong,
+body.dark-mode .details-stat strong,
+body.dark-mode .checkbox,
+body.dark-mode .filter-buttons button {
+    color: var(--bv-heading) !important;
+}
+
+body.dark-mode .stat-box h3,
+body.dark-mode .stat-box p,
+body.dark-mode .reading-progress-info,
+body.dark-mode .reading-progress-header span,
+body.dark-mode .book-body p,
+body.dark-mode .no-books,
+body.dark-mode #search-message,
+body.dark-mode .details-stat span,
+body.dark-mode .details-progress-header,
+body.dark-mode .progress-header span {
+    color: var(--bv-muted) !important;
 }
 
 /* =========================================================
@@ -8047,16 +8093,24 @@ body.dark-mode #profile-popup span {
 
 body.dark-mode .section-title,
 body.dark-mode .section-heading,
+body.dark-mode .section-heading h2,
 body.dark-mode .section-header h2,
 body.dark-mode .books-header h2,
 body.dark-mode .reading-goals-header h2,
 body.dark-mode .categories-header h2,
-body.dark-mode .settings-header h2 {
+body.dark-mode .settings-header h2,
+body.dark-mode .currently-reading .section-heading h2,
+body.dark-mode .currently-reading h2,
+body.dark-mode .currently-reading .section-label,
+body.dark-mode .currently-reading #reading-count-label {
     color: #edf3f7 !important;
 }
 
 body.dark-mode .section-description,
-body.dark-mode .section-subtitle {
+body.dark-mode .section-subtitle,
+body.dark-mode .currently-reading p,
+body.dark-mode .currently-reading span,
+body.dark-mode .currently-reading .section-header p {
     color: #9eacb7 !important;
 }
 
